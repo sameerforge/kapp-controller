@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1739353772477,
+  "lastUpdate": 1739872140296,
   "repoUrl": "https://github.com/carvel-dev/kapp-controller",
   "entries": {
     "Benchmark": [
@@ -18191,6 +18191,102 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
             "value": 2.074,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "53291139+gtchiflidjanov@users.noreply.github.com",
+            "name": "Grigoriy Tchiflidjanov",
+            "username": "gtchiflidjanov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "58970737f904b26310efdcded44165827f815378",
+          "message": "Sync kctrl CLI module dependencies with main module. (#1687)\n\n* Sync kctrl CLI module dependencies with main module.\r\n\r\nSigned-off-by: Grigoriy Tchiflidjanov <grigoriy.tchiflidjanov@broadcom.com>\r\n\r\n* Change CLI module name to follow main module.\r\n\r\nBumping Go version to 1.23.6\r\n\r\nSigned-off-by: Grigoriy Tchiflidjanov <grigoriy.tchiflidjanov@broadcom.com>\r\n\r\n---------\r\n\r\nSigned-off-by: Grigoriy Tchiflidjanov <grigoriy.tchiflidjanov@broadcom.com>\r\nCo-authored-by: Grigoriy Tchiflidjanov <grigoriy.tchiflidjanov@broadcom.com>",
+          "timestamp": "2025-02-18T15:11:44+05:30",
+          "tree_id": "23e15708ef89f4f3bb1cd73a96125854af078bab",
+          "url": "https://github.com/carvel-dev/kapp-controller/commit/58970737f904b26310efdcded44165827f815378"
+        },
+        "date": 1739872138818,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "Benchmark_pkgr_with_500_packages",
+            "value": 34952363518,
+            "unit": "ns/op\t        17.56 DeleteSeconds\t        17.35 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - ns/op",
+            "value": 34952363518,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeleteSeconds",
+            "value": 17.56,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeploySeconds",
+            "value": 17.35,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages",
+            "value": 8414192481,
+            "unit": "ns/op\t         4.151 DeleteSeconds\t         4.167 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - ns/op",
+            "value": 8414192481,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeleteSeconds",
+            "value": 4.151,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeploySeconds",
+            "value": 4.167,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages",
+            "value": 6303942143,
+            "unit": "ns/op\t         4.131 DeleteSeconds\t         2.079 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - ns/op",
+            "value": 6303942143,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeleteSeconds",
+            "value": 4.131,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
+            "value": 2.079,
             "unit": "DeploySeconds",
             "extra": "1 times\n4 procs"
           }
