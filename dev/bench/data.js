@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1752569715869,
+  "lastUpdate": 1755673861085,
   "repoUrl": "https://github.com/carvel-dev/kapp-controller",
   "entries": {
     "Benchmark": [
@@ -20687,6 +20687,102 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
             "value": 2.075,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marin.dzhigarov@broadcom.com",
+            "name": "Marin Dzhigarov",
+            "username": "mdzhigarov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "367ae9a5170db012d425404ecf7b09af0fb73369",
+          "message": "Fix PKGI reconciliation taking old App status during upgrade (#1751)\n\n* Fix PKGI reconciliation taking old App status during upgrade\n\nSigned-off-by: Marin Dzhigarov <mdzhigarov@vmware.com>\n\n* Addresses comments\n\nSigned-off-by: Marin Dzhigarov <mdzhigarov@vmware.com>\n\n---------\n\nSigned-off-by: Marin Dzhigarov <mdzhigarov@vmware.com>\nCo-authored-by: Marin Dzhigarov <mdzhigarov@vmware.com>",
+          "timestamp": "2025-08-20T12:33:20+05:30",
+          "tree_id": "81c22fbcd0e2d0c33f82ff1bff8837ab8485a94f",
+          "url": "https://github.com/carvel-dev/kapp-controller/commit/367ae9a5170db012d425404ecf7b09af0fb73369"
+        },
+        "date": 1755673859049,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "Benchmark_pkgr_with_500_packages",
+            "value": 36026080124,
+            "unit": "ns/op\t        18.64 DeleteSeconds\t        17.36 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - ns/op",
+            "value": 36026080124,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeleteSeconds",
+            "value": 18.64,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeploySeconds",
+            "value": 17.36,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages",
+            "value": 8362406926,
+            "unit": "ns/op\t         4.167 DeleteSeconds\t         4.097 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - ns/op",
+            "value": 8362406926,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeleteSeconds",
+            "value": 4.167,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeploySeconds",
+            "value": 4.097,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages",
+            "value": 6353764675,
+            "unit": "ns/op\t         4.162 DeleteSeconds\t         2.106 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - ns/op",
+            "value": 6353764675,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeleteSeconds",
+            "value": 4.162,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
+            "value": 2.106,
             "unit": "DeploySeconds",
             "extra": "1 times\n4 procs"
           }
