@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760427470745,
+  "lastUpdate": 1760442776039,
   "repoUrl": "https://github.com/carvel-dev/kapp-controller",
   "entries": {
     "Benchmark": [
@@ -20879,6 +20879,102 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
             "value": 2.082,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "m.dzhigarov@gmail.com",
+            "name": "Marin Dzhigarov",
+            "username": "mdzhigarov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0c1aa96fe67ef6edff6b3e1aa8016766fa392d2f",
+          "message": "Add retry logic for App CR updates to handle optimistic concurrency conflicts (#1766)\n\n* Add retry logic for App CR updates to handle optimistic concurrency conflicts\n\n- Implement updateAppWithRetry() function in PackageInstall reconciler\n- Add retry logic with up to 5 attempts for App CR updates\n- Re-fetch App CR after each failed update to get latest resourceVersion\n- Handle NotFound errors immediately without retries\n- Add comprehensive unit tests for retry logic covering:\n  - Conflict error handling with retries\n  - NotFound error immediate return\n  - Update function error propagation\n- Use NewApp function for App transformations in retry logic\n\nFixes optimistic concurrency control conflicts that occur when\nmultiple operations attempt to update the same App CR simultaneously.\n\nSigned-off-by: Marin Dzhigarov <m.dzhigarov@gmail.com>\n\n* Fix golangci-lint unused parameter warnings in tests\n\n- Rename unused 'action' parameters to '_' in test reactors\n- Rename unused 'app' parameter to '_' in failing update function test\n- Addresses revive linter warnings for unused parameters\n\nSigned-off-by: Marin Dzhigarov <m.dzhigarov@gmail.com>\n\n* Fix app update retry logic to only retry on conflict errors\n\n- Update updateAppWithRetry to only retry on conflict errors, not on NotFound errors\n- Change retry condition from !errors.IsNotFound(err) to !errors.IsConflict(err)\n- Update unit tests to reflect new retry behavior:\n  - Fix Test_UpdateAppWithRetry_HandlesNotFoundError to expect no retries for NotFound\n  - Add Test_UpdateAppWithRetry_HandlesNonConflictError for non-conflict error handling\n  - Update Test_UpdateAppWithRetry_HandlesConflictErrors to use proper errors.NewConflict()\n  - Add k8s.io/apimachinery/pkg/api/errors import for proper error types\n\nThis ensures that only conflict errors trigger retries, while all other errors\n(including NotFound) are returned immediately without retries.\n\nSigned-off-by: Marin Dzhigarov <m.dzhigarov@gmail.com>\n\n---------\n\nSigned-off-by: Marin Dzhigarov <m.dzhigarov@gmail.com>",
+          "timestamp": "2025-10-14T17:15:28+05:30",
+          "tree_id": "7ca382450c19a54c88d1698c68257f3354785343",
+          "url": "https://github.com/carvel-dev/kapp-controller/commit/0c1aa96fe67ef6edff6b3e1aa8016766fa392d2f"
+        },
+        "date": 1760442774683,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "Benchmark_pkgr_with_500_packages",
+            "value": 35987929779,
+            "unit": "ns/op\t        18.53 DeleteSeconds\t        17.37 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - ns/op",
+            "value": 35987929779,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeleteSeconds",
+            "value": 18.53,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeploySeconds",
+            "value": 17.37,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages",
+            "value": 9353131160,
+            "unit": "ns/op\t         5.157 DeleteSeconds\t         4.102 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - ns/op",
+            "value": 9353131160,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeleteSeconds",
+            "value": 5.157,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeploySeconds",
+            "value": 4.102,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages",
+            "value": 6311981149,
+            "unit": "ns/op\t         4.128 DeleteSeconds\t         2.087 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - ns/op",
+            "value": 6311981149,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeleteSeconds",
+            "value": 4.128,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
+            "value": 2.087,
             "unit": "DeploySeconds",
             "extra": "1 times\n4 procs"
           }
