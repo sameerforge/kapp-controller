@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760442776039,
+  "lastUpdate": 1762954716184,
   "repoUrl": "https://github.com/carvel-dev/kapp-controller",
   "entries": {
     "Benchmark": [
@@ -20975,6 +20975,102 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
             "value": 2.087,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "87057459+devanshuVmware@users.noreply.github.com",
+            "name": "Devanshu",
+            "username": "devanshuVmware"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "362e88c0159706ce3b66f22e4d342364699d5203",
+          "message": "Merge pull request #1733 from carvel-dev/bump-dependencies\n\nBump dependencies",
+          "timestamp": "2025-11-12T19:01:05+05:30",
+          "tree_id": "fda4fd83ec6a3d8f7c9a21134eef0ffc1328d8e8",
+          "url": "https://github.com/carvel-dev/kapp-controller/commit/362e88c0159706ce3b66f22e4d342364699d5203"
+        },
+        "date": 1762954714933,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "Benchmark_pkgr_with_500_packages",
+            "value": 36049406542,
+            "unit": "ns/op\t        18.58 DeleteSeconds\t        17.38 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - ns/op",
+            "value": 36049406542,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeleteSeconds",
+            "value": 18.58,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_500_packages - DeploySeconds",
+            "value": 17.38,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages",
+            "value": 9355334300,
+            "unit": "ns/op\t         5.163 DeleteSeconds\t         4.102 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - ns/op",
+            "value": 9355334300,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeleteSeconds",
+            "value": 5.163,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_100_packages - DeploySeconds",
+            "value": 4.102,
+            "unit": "DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages",
+            "value": 6345280929,
+            "unit": "ns/op\t         4.183 DeleteSeconds\t         2.081 DeploySeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - ns/op",
+            "value": 6345280929,
+            "unit": "ns/op",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeleteSeconds",
+            "value": 4.183,
+            "unit": "DeleteSeconds",
+            "extra": "1 times\n4 procs"
+          },
+          {
+            "name": "Benchmark_pkgr_with_50_packages - DeploySeconds",
+            "value": 2.081,
             "unit": "DeploySeconds",
             "extra": "1 times\n4 procs"
           }
