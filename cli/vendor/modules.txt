@@ -48,7 +48,7 @@ carvel.dev/kapp-controller/pkg/reconciler
 carvel.dev/kapp-controller/pkg/reftracker
 carvel.dev/kapp-controller/pkg/satoken
 carvel.dev/kapp-controller/pkg/template
-# carvel.dev/vendir v0.45.2
+# carvel.dev/vendir v0.45.3
 ## explicit; go 1.25.7
 carvel.dev/vendir/pkg/vendir/config
 carvel.dev/vendir/pkg/vendir/version
@@ -57,7 +57,7 @@ carvel.dev/vendir/pkg/vendir/versions/v1alpha1
 # github.com/beorn7/perks v1.0.1
 ## explicit; go 1.11
 github.com/beorn7/perks/quantile
-# github.com/carvel-dev/semver/v4 v4.0.1-0.20240402203627-beb83fbf25e4
+# github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02
 ## explicit; go 1.14
 github.com/carvel-dev/semver/v4
 # github.com/cespare/xxhash/v2 v2.3.0

@@ -1,5 +1,5 @@
-carvel.dev/vendir v0.45.2 h1:oaOqEVgw/z4AZgCvZPgfY+JUFf3YGJSUTH2QLTyIV5A=
-carvel.dev/vendir v0.45.2/go.mod h1:R6wZyF61/mbTe4VpXBky0FiDNoCSIND+/LQvUJkkQVQ=
+carvel.dev/vendir v0.45.3 h1:crIwlGpsdvABTiUM71IbAaanavyET7+FhnI8hrd3x3U=
+carvel.dev/vendir v0.45.3/go.mod h1:ulOigkUjXfCYidNbHqNAtEf0MFnuwG4jhoEqG2giOnU=
 cloud.google.com/go v0.60.0/go.mod h1:yw2G51M9IfRboUH61Us8GqCeF1PzPblB823Mn2q2eAU=
 cloud.google.com/go/bigquery v1.3.0/go.mod h1:PjpwJnslEMmckchkHFfq+HTD2DmtT67aNFKH1/VBDHE=
 cloud.google.com/go/bigquery v1.4.0/go.mod h1:S8dzgnTigyfTmLBfrtrhyYhwRxG72rYxvftPBK2Dvzc=
@@ -57,8 +57,8 @@ github.com/blang/semver v3.5.1+incompatible h1:cQNTCjp13qL8KC3Nbxr/y2Bqb63oX6wdn
 github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
 github.com/blang/semver/v4 v4.0.0 h1:1PFHFE6yCCTv8C1TeyNNarDzntLi7wMI5i/pzqYIsAM=
 github.com/blang/semver/v4 v4.0.0/go.mod h1:IbckMUScFkM3pff0VJDNKRiT6TG/YpiHIM2yvyW5YoQ=
-github.com/carvel-dev/semver/v4 v4.0.1-0.20240402203627-beb83fbf25e4 h1:F4rZiMGZyC66j9VB7doVOE4tFHF1yNEihQlOuht4jmM=
-github.com/carvel-dev/semver/v4 v4.0.1-0.20240402203627-beb83fbf25e4/go.mod h1:4cFTBLAr/U11ykiEEQMccu4uJ1i0GS+atJmeETHCFtI=
+github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02 h1:LP+GFDwgIBQFld1EhQt3UaN1typu03sqU3eWCKM5Isk=
+github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02/go.mod h1:4cFTBLAr/U11ykiEEQMccu4uJ1i0GS+atJmeETHCFtI=
 github.com/cenkalti/backoff/v4 v4.2.1 h1:y4OZtCnogmCPw98Zjyt5a6+QwPLGkiQsYW5oUqylYbM=
 github.com/cenkalti/backoff/v4 v4.2.1/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
