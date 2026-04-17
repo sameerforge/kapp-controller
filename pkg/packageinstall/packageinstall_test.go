@@ -15,7 +15,7 @@ import (
 	fakekappctrl "carvel.dev/kapp-controller/pkg/client/clientset/versioned/fake"
 	"carvel.dev/kapp-controller/pkg/metrics"
 	versions "carvel.dev/vendir/pkg/vendir/versions/v1alpha1"
-	"github.com/k14s/semver/v4"
+	"github.com/carvel-dev/semver/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	corev1 "k8s.io/api/core/v1"

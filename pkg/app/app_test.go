@@ -16,7 +16,7 @@ import (
 	"carvel.dev/kapp-controller/pkg/metrics"
 	"carvel.dev/kapp-controller/pkg/reftracker"
 	"carvel.dev/kapp-controller/pkg/template"
-	"github.com/k14s/semver/v4"
+	"github.com/carvel-dev/semver/v4"
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

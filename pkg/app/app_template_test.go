@@ -14,7 +14,7 @@ import (
 	"carvel.dev/kapp-controller/pkg/kubeconfig"
 	"carvel.dev/kapp-controller/pkg/metrics"
 	"carvel.dev/kapp-controller/pkg/template"
-	"github.com/k14s/semver/v4"
+	"github.com/carvel-dev/semver/v4"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8sfake "k8s.io/client-go/kubernetes/fake"
