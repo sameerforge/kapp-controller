@@ -4,7 +4,7 @@ go 1.25.7
 
 require (
 	carvel.dev/kapp-controller v0.59.0
-	carvel.dev/vendir v0.45.2
+	carvel.dev/vendir v0.45.3
 	github.com/cppforlife/cobrautil v0.0.0-20221130162803-acdfead391ef
 	github.com/cppforlife/color v1.9.1-0.20200716202919-6706ac40b835
 	github.com/cppforlife/go-cli-ui v0.0.0-20220520125801-e45d9169a663
@@ -29,7 +29,7 @@ require (
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/carvel-dev/semver/v4 v4.0.1-0.20240402203627-beb83fbf25e4 // indirect
+	github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect

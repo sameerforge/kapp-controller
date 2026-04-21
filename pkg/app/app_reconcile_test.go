@@ -17,7 +17,7 @@ import (
 	"carvel.dev/kapp-controller/pkg/kubeconfig"
 	"carvel.dev/kapp-controller/pkg/metrics"
 	"carvel.dev/kapp-controller/pkg/template"
-	"github.com/k14s/semver/v4"
+	"github.com/carvel-dev/semver/v4"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"

@@ -9,7 +9,7 @@ import (
 
 	"carvel.dev/kapp-controller/pkg/apiserver/apis/datapackaging"
 	"carvel.dev/vendir/pkg/vendir/versions"
-	semver "github.com/k14s/semver/v4"
+	semver "github.com/carvel-dev/semver/v4"
 	"k8s.io/apimachinery/pkg/util/validation"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 )
