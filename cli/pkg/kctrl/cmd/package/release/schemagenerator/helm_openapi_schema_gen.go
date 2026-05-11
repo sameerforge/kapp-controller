@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	kcdatav1alpha1 "carvel.dev/kapp-controller/pkg/apiserver/apis/datapackaging/v1alpha1"
-	yaml2 "gopkg.in/yaml.v2"
-	yaml3 "gopkg.in/yaml.v3"
+	yaml2 "go.yaml.in/yaml/v2"
+	yaml3 "go.yaml.in/yaml/v3"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/yaml"
 )
