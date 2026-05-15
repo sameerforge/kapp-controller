@@ -150,5 +150,8 @@ func (psc PackageMetadataStorageClient) Delete(ctx context.Context, namespace, n
 
 func (psc PackageMetadataStorageClient) Watch(ctx context.Context, namespace string, opts metav1.ListOptions) (watch.Interface, error) {
 	watcher, err := psc.crdClient.InternalV1alpha1().InternalPackageMetadatas(namespace).Watch(ctx, opts)
-	return psc.translator.ToExternalWatcher(watcher), psc.translator.ToExternalError(err)
+	if err != nil {
+		return nil, psc.translator.ToExternalError(err)
+	}
+	return psc.translator.ToExternalWatcher(watcher), nil
 }

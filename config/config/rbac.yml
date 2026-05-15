@@ -55,7 +55,7 @@ rules:
   resources: ["namespaces"]
   verbs: ["list", "watch", "get", "update"]
 - apiGroups: ["admissionregistration.k8s.io"]
-  resources: ["mutatingwebhookconfigurations", "validatingwebhookconfigurations", "validatingadmissionpolicies", "validatingadmissionpolicybindings"]
+  resources: ["mutatingwebhookconfigurations", "validatingwebhookconfigurations", "mutatingadmissionpolicies", "mutatingadmissionpolicybindings", "validatingadmissionpolicies", "validatingadmissionpolicybindings"]
   verbs: ["list", "watch"]
 - apiGroups: ["authorization.k8s.io"]
   resources: ["subjectaccessreviews"]
