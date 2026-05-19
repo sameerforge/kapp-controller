@@ -250,5 +250,8 @@ func (psc PackageStorageClient) Watch(ctx context.Context, namespace string, opt
 	opts.FieldSelector = fields.Everything().String()
 
 	watcher, err := psc.crdClient.InternalV1alpha1().InternalPackages(namespace).Watch(ctx, opts)
-	return psc.translator.ToExternalWatcher(watcher, fieldSelector), psc.translator.ToExternalError(err)
+	if err != nil {
+		return nil, psc.translator.ToExternalError(err)
+	}
+	return psc.translator.ToExternalWatcher(watcher, fieldSelector), nil
 }

@@ -26,6 +26,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/apiserver/pkg/admission/plugin/namespace/lifecycle"
+	mutatingadmissionpolicy "k8s.io/apiserver/pkg/admission/plugin/policy/mutating"
+	validatingadmissionpolicy "k8s.io/apiserver/pkg/admission/plugin/policy/validating"
 	mutatingwebhook "k8s.io/apiserver/pkg/admission/plugin/webhook/mutating"
 	validatingwebhook "k8s.io/apiserver/pkg/admission/plugin/webhook/validating"
 	genericopenapi "k8s.io/apiserver/pkg/endpoints/openapi"
@@ -33,12 +35,15 @@ import (
 	genericapiserver "k8s.io/apiserver/pkg/server"
 	"k8s.io/apiserver/pkg/server/dynamiccertificates"
 	genericoptions "k8s.io/apiserver/pkg/server/options"
+	apiservercompatibility "k8s.io/apiserver/pkg/util/compatibility"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/util/retry"
 	apiregv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
 	aggregatorclient "k8s.io/kube-aggregator/pkg/client/clientset_generated/clientset"
+	genericopenapicommon "k8s.io/kube-openapi/pkg/common"
+	openapispec "k8s.io/kube-openapi/pkg/validation/spec"
 )
 
 const (
@@ -59,6 +64,41 @@ var (
 	Scheme = runtime.NewScheme()
 	Codecs = serializer.NewCodecFactory(Scheme)
 )
+
+// getOpenAPIDefinitions wraps the generated definitions and injects
+// k8s.io/apimachinery/pkg/version.Info, which is required by the /version
+// endpoint that the generic API server always installs. Without it,
+// routes.InstallV2 calls klog.Fatalf and crashes the process.
+func getOpenAPIDefinitions(ref genericopenapicommon.ReferenceCallback) map[string]genericopenapicommon.OpenAPIDefinition {
+	defs := openapi.GetOpenAPIDefinitions(ref)
+	// version.Info implements OpenAPIModelNamer, returning the dot-notation name
+	// "io.k8s.apimachinery.pkg.version.Info", so the map key must match that.
+	defs["io.k8s.apimachinery.pkg.version.Info"] = genericopenapicommon.OpenAPIDefinition{
+		Schema: openapispec.Schema{
+			SchemaProps: openapispec.SchemaProps{
+				Description: "Info contains versioning information.",
+				Type:        []string{"object"},
+				Properties: map[string]openapispec.Schema{
+					"major":                 {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"minor":                 {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"emulationMajor":        {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"emulationMinor":        {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"minCompatibilityMajor": {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"minCompatibilityMinor": {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"gitVersion":            {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"gitCommit":             {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"gitTreeState":          {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"buildDate":             {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"goVersion":             {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"compiler":              {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+					"platform":              {SchemaProps: openapispec.SchemaProps{Type: []string{"string"}, Format: ""}},
+				},
+				Required: []string{"major", "minor", "gitVersion", "gitCommit", "gitTreeState", "buildDate", "goVersion", "compiler", "platform"},
+			},
+		},
+	}
+	return defs
+}
 
 func init() {
 	// Setup the scheme the server will use
@@ -137,7 +177,7 @@ func NewAPIServer(clientConfig *rest.Config, coreClient kubernetes.Interface, kc
 			if err := updateAPIService(ctx, opts.Logger, aggClient, caContentProvider); err != nil {
 				opts.Logger.Error(err, "Background APIService CA reconciliation failed")
 			}
-		}, apiServiceReconcileInterval, hookContext.StopCh)
+		}, apiServiceReconcileInterval, hookContext.Done())
 
 		return nil
 	}); err != nil {
@@ -241,22 +281,28 @@ func newServerConfig(aggClient aggregatorclient.Interface, opts NewAPIServerOpts
 		recommendedOptions.Features.EnablePriorityAndFairness = false
 	}
 
-	// validatingAdmissionPolicy has been made available by default for K8s >= 1.30.
-	// We will remove the validatingAdmissionPolicy from the execution in case K8s < 1.30.
-	// However, we will still run namespaceLifecycle, mutatingAdmissionWebhook and validatingAdmissionWebhooks.
-	minSupportedVersionForValidatingAdmissionPolicy, err := semver.New("1.30.0")
-	if err != nil {
-		return nil, nil, err
+	// Always explicitly set the admission plugin order. Only include admission policy
+	// plugins if their backing API resources actually exist in the cluster — some plugins
+	// (MutatingAdmissionPolicy) require a feature gate that is not enabled by default even
+	// on clusters that meet the minimum version, and will spam watch errors if loaded
+	// against a cluster where the resource is absent.
+	pluginOrder := []string{lifecycle.PluginName, mutatingwebhook.PluginName, validatingwebhook.PluginName}
+	if serverResourceExists(aggClient.Discovery(), "admissionregistration.k8s.io/v1", "validatingadmissionpolicies") {
+		pluginOrder = append(pluginOrder, validatingadmissionpolicy.PluginName)
 	}
-	isServerVerLTminSupportedVer = serverVersion.LT(*minSupportedVersionForValidatingAdmissionPolicy)
-	if isServerVerLTminSupportedVer {
-		recommendedOptions.Admission.RecommendedPluginOrder = []string{lifecycle.PluginName, mutatingwebhook.PluginName, validatingwebhook.PluginName}
+	if serverResourceExists(aggClient.Discovery(), "admissionregistration.k8s.io/v1", "mutatingadmissionpolicies") {
+		pluginOrder = append(pluginOrder, mutatingadmissionpolicy.PluginName)
 	}
+	recommendedOptions.Admission.RecommendedPluginOrder = pluginOrder
 
 	serverConfig := genericapiserver.NewRecommendedConfig(Codecs)
 
+	// EffectiveVersion must be initialized for k8s.io/apiserver v0.36.0+;
+	// config.Complete() dereferences it and panics if nil.
+	serverConfig.EffectiveVersion = apiservercompatibility.DefaultBuildEffectiveVersion()
+
 	serverConfig.OpenAPIV3Config = genericapiserver.DefaultOpenAPIV3Config(
-		openapi.GetOpenAPIDefinitions,
+		getOpenAPIDefinitions,
 		genericopenapi.NewDefinitionNamer(Scheme))
 	serverConfig.OpenAPIV3Config.Info.Title = "Kapp-controller"
 	serverConfig.OpenAPIV3Config.Info.Version = "v1alpha1"
@@ -265,7 +311,7 @@ func newServerConfig(aggClient aggregatorclient.Interface, opts NewAPIServerOpts
 	// In K8s 1.30+, the aggregator syncs both v2 and v3 specs; providing v2 prevents
 	// "resource not found" errors in the kube-apiserver logs (Fixes #1703).
 	serverConfig.OpenAPIConfig = genericapiserver.DefaultOpenAPIConfig(
-		openapi.GetOpenAPIDefinitions,
+		getOpenAPIDefinitions,
 		genericopenapi.NewDefinitionNamer(Scheme))
 	serverConfig.OpenAPIConfig.Info.Title = "Kapp-controller"
 	serverConfig.OpenAPIConfig.Info.Version = "v1alpha1"
@@ -275,6 +321,22 @@ func newServerConfig(aggClient aggregatorclient.Interface, opts NewAPIServerOpts
 	}
 
 	return serverConfig, caContentProvider, nil
+}
+
+// serverResourceExists returns true if the given groupVersion + resource kind is
+// available in the cluster. It is used to guard admission plugins whose backing
+// resources may not be present (e.g. MutatingAdmissionPolicy behind a feature gate).
+func serverResourceExists(discoveryClient discovery.DiscoveryInterface, groupVersion, resource string) bool {
+	list, err := discoveryClient.ServerResourcesForGroupVersion(groupVersion)
+	if err != nil {
+		return false
+	}
+	for _, r := range list.APIResources {
+		if r.Name == resource {
+			return true
+		}
+	}
+	return false
 }
 
 func getServerVersion(discoveryClient discovery.DiscoveryInterface) (semver.Version, error) {
