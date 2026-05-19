@@ -15,7 +15,6 @@ func TestPackageRepoDryRun(t *testing.T) {
 		tagExpectedOutput := `apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  creationTimestamp: null
   name: test-repo
   namespace: kctrl-test
 spec:
@@ -29,7 +28,6 @@ status:
 		semverExpectedOutput := `apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  creationTimestamp: null
   name: test-repo
   namespace: kctrl-test
 spec:
@@ -47,7 +45,6 @@ status:
 		tagSemverExpectedOutput := `apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  creationTimestamp: null
   name: test-repo
   namespace: kctrl-test
 spec:
@@ -81,7 +78,6 @@ func TestPackageRepoSecretRefDryRun(t *testing.T) {
 		expectedOutput := `apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  creationTimestamp: null
   name: test-repo
   namespace: kctrl-test
 spec:
