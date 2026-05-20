@@ -20,7 +20,6 @@ metadata:
   annotations:
     packaging.carvel.dev/package: test-kctrl-test
     tkg.tanzu.vmware.com/tanzu-package: test-kctrl-test
-  creationTimestamp: null
   name: test-kctrl-test-sa
   namespace: kctrl-test
 ---
@@ -30,7 +29,6 @@ metadata:
   annotations:
     packaging.carvel.dev/package: test-kctrl-test
     tkg.tanzu.vmware.com/tanzu-package: test-kctrl-test
-  creationTimestamp: null
   name: test-kctrl-test-cluster-role
 rules:
 - apiGroups:
@@ -46,7 +44,6 @@ metadata:
   annotations:
     packaging.carvel.dev/package: test-kctrl-test
     tkg.tanzu.vmware.com/tanzu-package: test-kctrl-test
-  creationTimestamp: null
   name: test-kctrl-test-cluster-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -67,7 +64,6 @@ metadata:
     tkg.tanzu.vmware.com/tanzu-package-ClusterRole: test-kctrl-test-cluster-role
     tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: test-kctrl-test-cluster-rolebinding
     tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: test-kctrl-test-sa
-  creationTimestamp: null
   name: test
   namespace: kctrl-test
 spec:
@@ -91,7 +87,6 @@ status:
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
-  creationTimestamp: null
   name: test
   namespace: kctrl-test
 spec:
@@ -119,7 +114,6 @@ metadata:
   annotations:
     packaging.carvel.dev/package: test-kctrl-test
     tkg.tanzu.vmware.com/tanzu-package: test-kctrl-test
-  creationTimestamp: null
   name: test-kctrl-test-values
   namespace: kctrl-test
 stringData:
@@ -132,7 +126,6 @@ metadata:
   annotations:
     packaging.carvel.dev/package-Secret: test-kctrl-test-values
     tkg.tanzu.vmware.com/tanzu-package-Secret: test-kctrl-test-values
-  creationTimestamp: null
   name: test
   namespace: kctrl-test
 spec:
