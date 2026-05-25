@@ -3,14 +3,14 @@ module carvel.dev/kapp-controller
 go 1.26.3
 
 require (
-	carvel.dev/vendir v0.45.3
+	carvel.dev/vendir v0.45.4
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/gogo/protobuf v1.3.2
 	github.com/prometheus/client_golang v1.23.2
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/crypto v0.50.0
 	golang.org/x/text v0.36.0 // indirect
-	golang.org/x/tools v0.43.0
+	golang.org/x/tools v0.44.0
 	k8s.io/api v0.36.0
 	k8s.io/apimachinery v0.36.0
 	k8s.io/apiserver v0.36.0
@@ -24,8 +24,8 @@ require (
 )
 
 require (
-	github.com/blang/semver v3.5.1+incompatible
-	github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02
+	github.com/blang/semver/v4 v4.0.0
+	github.com/carvel-dev/semver/v4 v4.0.1
 	github.com/cppforlife/go-cli-ui v0.0.0-20220520125801-e45d9169a663
 	github.com/go-logr/logr v1.4.3
 	github.com/prometheus/client_model v0.6.2
@@ -42,7 +42,6 @@ require (
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
@@ -103,11 +102,11 @@ require (
 	go.uber.org/zap v1.27.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93 // indirect
-	golang.org/x/mod v0.34.0 // indirect
-	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/mod v0.36.0 // indirect
+	golang.org/x/net v0.53.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
-	golang.org/x/sys v0.43.0 // indirect
-	golang.org/x/telemetry v0.0.0-20260311193753-579e4da9a98c // indirect
+	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/telemetry v0.0.0-20260409153401-be6f6cb8b1fa // indirect
 	golang.org/x/term v0.42.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
