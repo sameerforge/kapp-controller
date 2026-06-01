@@ -1,4 +1,4 @@
-# carvel.dev/kapp-controller v0.59.9-0.20260519144309-679ae0db7389
+# carvel.dev/kapp-controller v0.60.1-0.20260601134914-cb4fbdccc76a
 ## explicit; go 1.26.3
 carvel.dev/kapp-controller/pkg/apis/internalpackaging/install
 carvel.dev/kapp-controller/pkg/apis/internalpackaging/v1alpha1
@@ -48,7 +48,7 @@ carvel.dev/kapp-controller/pkg/reconciler
 carvel.dev/kapp-controller/pkg/reftracker
 carvel.dev/kapp-controller/pkg/satoken
 carvel.dev/kapp-controller/pkg/template
-# carvel.dev/vendir v0.45.3
+# carvel.dev/vendir v0.45.4
 ## explicit; go 1.25.7
 carvel.dev/vendir/pkg/vendir/config
 carvel.dev/vendir/pkg/vendir/version
@@ -57,7 +57,7 @@ carvel.dev/vendir/pkg/vendir/versions/v1alpha1
 # github.com/beorn7/perks v1.0.1
 ## explicit; go 1.11
 github.com/beorn7/perks/quantile
-# github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02
+# github.com/carvel-dev/semver/v4 v4.0.1
 ## explicit; go 1.14
 github.com/carvel-dev/semver/v4
 # github.com/cespare/xxhash/v2 v2.3.0
@@ -255,7 +255,7 @@ golang.org/x/crypto/openpgp/elgamal
 golang.org/x/crypto/openpgp/errors
 golang.org/x/crypto/openpgp/packet
 golang.org/x/crypto/openpgp/s2k
-# golang.org/x/net v0.52.0
+# golang.org/x/net v0.53.0
 ## explicit; go 1.25.0
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
@@ -270,7 +270,7 @@ golang.org/x/oauth2/internal
 # golang.org/x/sync v0.20.0
 ## explicit; go 1.25.0
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.43.0
+# golang.org/x/sys v0.44.0
 ## explicit; go 1.25.0
 golang.org/x/sys/plan9
 golang.org/x/sys/unix
