@@ -3,8 +3,8 @@ module carvel.dev/kapp-controller/cli
 go 1.26.3
 
 require (
-	carvel.dev/kapp-controller v0.59.9-0.20260519144309-679ae0db7389
-	carvel.dev/vendir v0.45.3
+	carvel.dev/kapp-controller v0.60.1-0.20260601134914-cb4fbdccc76a
+	carvel.dev/vendir v0.45.4
 	github.com/cppforlife/cobrautil v0.0.0-20221130162803-acdfead391ef
 	github.com/cppforlife/color v1.9.1-0.20200716202919-6706ac40b835
 	github.com/cppforlife/go-cli-ui v0.0.0-20220520125801-e45d9169a663
@@ -29,7 +29,7 @@ require (
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/carvel-dev/semver/v4 v4.0.1-0.20260413160702-f136b2e8bf02 // indirect
+	github.com/carvel-dev/semver/v4 v4.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
@@ -68,10 +68,10 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.1 // indirect
 	golang.org/x/crypto v0.50.0 // indirect
-	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/net v0.53.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.43.0 // indirect
+	golang.org/x/sys v0.44.0 // indirect
 	golang.org/x/term v0.42.0 // indirect
 	golang.org/x/text v0.36.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
