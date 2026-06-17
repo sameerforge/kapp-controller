@@ -368,6 +368,7 @@ func (r *PackageCRDREST) internalToMetaListOpts(options internalversion.ListOpti
 		TimeoutSeconds:       options.TimeoutSeconds,
 		Limit:                options.Limit,
 		Continue:             options.Continue,
+		SendInitialEvents:    options.SendInitialEvents,
 	}
 
 	if options.LabelSelector != nil {
