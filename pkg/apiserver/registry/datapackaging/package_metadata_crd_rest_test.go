@@ -408,6 +408,38 @@ func updateDisplayNameFn(newDisplayName, resourceName string) func(pkg *datapack
 	}
 }
 
+// Verify that WatchList options are correctly propagated to the underlying client
+func TestPackageMetadataWatchListOptionsConversion(t *testing.T) {
+	internalClient := fake.NewSimpleClientset()
+	fakeCoreClient := k8sfake.NewSimpleClientset(namespace())
+
+	pkgCRDREST := datapkgreg.NewPackageMetadataCRDREST(internalClient, fakeCoreClient, globalNamespace)
+
+	val := true
+	opts := internalversion.ListOptions{
+		SendInitialEvents: &val, // This is the trigger for the bug
+	}
+
+	// Execute the internal mapping
+	_, _ = pkgCRDREST.Watch(namespacedCtx(nonGlobalNamespace), &opts)
+
+	// Verification : Inspect the actions taken by the fake client to ensure the options were passed
+	actions := internalClient.Actions()
+	found := false
+	for _, action := range actions {
+		if watchAction, ok := action.(cgtesting.WatchActionImpl); ok {
+			if watchAction.GetListOptions().SendInitialEvents != nil &&
+				*watchAction.GetListOptions().SendInitialEvents == true {
+				found = true
+			}
+		}
+	}
+
+	if !found {
+		t.Fatal("Expected SendInitialEvents to be propagated to the client, but it was missing or nil")
+	}
+}
+
 type UpdatePackageTestImpl struct {
 	updateFn func(pkg *datapackaging.PackageMetadata) *datapackaging.PackageMetadata
 }
