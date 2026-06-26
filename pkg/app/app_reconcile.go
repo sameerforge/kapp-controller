@@ -128,8 +128,8 @@ func (a *App) reconcileFetchTemplateDeploy() exec.CmdRunResult {
 		assetsPath, fetchResult = a.fetch(assetsPath)
 
 		a.app.Status.Fetch = &v1alpha1.AppStatusFetch{
-			Stderr:    fetchResult.Stderr,
-			Stdout:    fetchResult.Stdout,
+			Stderr:    truncateOutput(fetchResult.Stderr, a.maxOutputBytes()),
+			Stdout:    truncateOutput(fetchResult.Stdout, a.maxOutputBytes()),
 			ExitCode:  fetchResult.ExitCode,
 			Error:     fetchResult.ErrorStr(),
 			StartedAt: a.app.Status.Fetch.StartedAt,
@@ -181,8 +181,8 @@ func (a *App) updateLastDeploy(result exec.CmdRunResult) exec.CmdRunResult {
 	result = result.WithFriendlyYAMLStrings()
 
 	a.app.Status.Deploy = &v1alpha1.AppStatusDeploy{
-		Stdout:           result.Stdout,
-		Stderr:           result.Stderr,
+		Stdout:           truncateOutput(result.Stdout, a.maxOutputBytes()),
+		Stderr:           truncateOutput(result.Stderr, a.maxOutputBytes()),
 		Finished:         result.Finished,
 		ExitCode:         result.ExitCode,
 		Error:            result.ErrorStr(),
@@ -246,8 +246,8 @@ func (a *App) reconcileInspect() error {
 
 	if !inspectResult.IsEmpty() {
 		a.app.Status.Inspect = &v1alpha1.AppStatusInspect{
-			Stdout:    inspectResult.Stdout,
-			Stderr:    inspectResult.Stderr,
+			Stdout:    truncateOutput(inspectResult.Stdout, a.maxOutputBytes()),
+			Stderr:    truncateOutput(inspectResult.Stderr, a.maxOutputBytes()),
 			ExitCode:  inspectResult.ExitCode,
 			Error:     inspectResult.ErrorStr(),
 			UpdatedAt: metav1.NewTime(time.Now().UTC()),
@@ -341,8 +341,8 @@ func (a *App) removeAllConditions() {
 func (a *App) setUsefulErrorMessage(result exec.CmdRunResult) {
 	switch {
 	case result.Stderr != "":
-		a.app.Status.UsefulErrorMessage = result.Stderr
+		a.app.Status.UsefulErrorMessage = truncateOutput(result.Stderr, a.maxOutputBytes())
 	default:
-		a.app.Status.UsefulErrorMessage = result.ErrorStr()
+		a.app.Status.UsefulErrorMessage = truncateOutput(result.ErrorStr(), a.maxOutputBytes())
 	}
 }
