@@ -6,7 +6,6 @@ package app
 import (
 	"strings"
 	"testing"
-	"unicode/utf8"
 
 	"carvel.dev/kapp-controller/pkg/apis/kappctrl/v1alpha1"
 	"carvel.dev/kapp-controller/pkg/deploy"
@@ -15,101 +14,9 @@ import (
 	"carvel.dev/kapp-controller/pkg/metrics"
 	"carvel.dev/kapp-controller/pkg/template"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 )
-
-func Test_truncateOutput(t *testing.T) {
-	tests := []struct {
-		name     string
-		input    string
-		maxBytes int
-		check    func(t *testing.T, result string)
-	}{
-		{
-			name:     "under limit is unchanged",
-			input:    "small output",
-			maxBytes: 1024,
-			check: func(t *testing.T, result string) {
-				assert.Equal(t, "small output", result)
-			},
-		},
-		{
-			name:     "exactly at limit is unchanged",
-			input:    strings.Repeat("x", 100),
-			maxBytes: 100,
-			check: func(t *testing.T, result string) {
-				assert.Equal(t, strings.Repeat("x", 100), result)
-			},
-		},
-		{
-			name:     "empty string is unchanged",
-			input:    "",
-			maxBytes: 100,
-			check: func(t *testing.T, result string) {
-				assert.Equal(t, "", result)
-			},
-		},
-		{
-			name:     "over limit has marker prefix and tail suffix",
-			input:    strings.Repeat("a", 200) + strings.Repeat("z", 50),
-			maxBytes: 50,
-			check: func(t *testing.T, result string) {
-				assert.True(t, strings.HasPrefix(result, truncationMarker))
-				assert.True(t, strings.HasSuffix(result, strings.Repeat("z", 50)))
-				// Marker does not count toward maxBytes.
-				assert.Equal(t, len(truncationMarker)+50, len(result))
-			},
-		},
-		{
-			name: "tail content preserved for realistic kapp output",
-			// Many per-resource lines followed by an actionable summary.  maxBytes
-			// is set to hold only the last ~100 bytes so truncation is guaranteed,
-			// and the summary at the tail must survive.
-			input: strings.Repeat("op add configmap/cm-001 (v1) namespace: default\n", 100) +
-				"Op: 100 add, 0 delete\nWait to: 100 reconcile\n",
-			maxBytes: 100,
-			check: func(t *testing.T, result string) {
-				assert.True(t, strings.HasPrefix(result, truncationMarker),
-					"large output must start with the truncation marker")
-				assert.Contains(t, result, "100 add",
-					"the actionable summary at the tail must be preserved after truncation")
-			},
-		},
-		{
-			name: "UTF-8 boundary: continuation byte is skipped",
-			// s = 98 'a's + "éé"  (102 bytes)
-			// maxBytes = 3 → start = 99 → s[99] = 0xA9 (continuation of first 'é')
-			// → advance to 100 → s[100] = 0xC3 (leading byte of second 'é') → stop
-			// kept = s[100:] = "é"
-			input:    strings.Repeat("a", 98) + "éé",
-			maxBytes: 3,
-			check: func(t *testing.T, result string) {
-				require.Equal(t, 102, len(strings.Repeat("a", 98)+"éé"))
-				assert.True(t, utf8.ValidString(result), "result must be valid UTF-8")
-				assert.Equal(t, truncationMarker+"é", result)
-			},
-		},
-		{
-			name:     "pure multibyte runes produce valid UTF-8",
-			input:    strings.Repeat("あ", 100), // 300 bytes; each rune is 3 bytes
-			maxBytes: 100,
-			check: func(t *testing.T, result string) {
-				// 100 / 3 = 33 complete runes (99 bytes); byte 100 is a continuation
-				// byte and is skipped.
-				assert.True(t, utf8.ValidString(result))
-				assert.Equal(t, truncationMarker+strings.Repeat("あ", 33), result)
-			},
-		},
-	}
-
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			tc.check(t, truncateOutput(tc.input, tc.maxBytes))
-		})
-	}
-}
 
 // newAppForTest returns a minimal *App wired with no-op hooks.
 func newAppForTest(t *testing.T, appModel v1alpha1.App, opts Opts) *App {
@@ -137,9 +44,9 @@ func Test_updateLastDeploy_TruncatesLargeStdout(t *testing.T) {
 	a.updateLastDeploy(exec.CmdRunResult{Stdout: largeStdout, Finished: true, ExitCode: 0})
 
 	got := a.app.Status.Deploy.Stdout
-	assert.True(t, strings.HasPrefix(got, truncationMarker),
+	assert.True(t, strings.HasPrefix(got, exec.TruncationMarker),
 		"deploy stdout should start with truncation marker when over limit")
-	assert.LessOrEqual(t, len(got), len(truncationMarker)+limit,
+	assert.LessOrEqual(t, len(got), len(exec.TruncationMarker)+limit,
 		"deploy stdout should not exceed marker + limit bytes")
 }
 
@@ -154,8 +61,8 @@ func Test_updateLastDeploy_TruncatesLargeStderr(t *testing.T) {
 	a.updateLastDeploy(exec.CmdRunResult{Stderr: largeStderr, Finished: true, ExitCode: 1})
 
 	got := a.app.Status.Deploy.Stderr
-	assert.True(t, strings.HasPrefix(got, truncationMarker))
-	assert.LessOrEqual(t, len(got), len(truncationMarker)+limit)
+	assert.True(t, strings.HasPrefix(got, exec.TruncationMarker))
+	assert.LessOrEqual(t, len(got), len(exec.TruncationMarker)+limit)
 }
 
 func Test_updateLastDeploy_NoTruncation_WhenUnderLimit(t *testing.T) {
@@ -168,7 +75,7 @@ func Test_updateLastDeploy_NoTruncation_WhenUnderLimit(t *testing.T) {
 	a.updateLastDeploy(exec.CmdRunResult{Stdout: smallStdout, Finished: true, ExitCode: 0})
 
 	assert.NotEmpty(t, a.app.Status.Deploy.Stdout)
-	assert.False(t, strings.HasPrefix(a.app.Status.Deploy.Stdout, truncationMarker),
+	assert.False(t, strings.HasPrefix(a.app.Status.Deploy.Stdout, exec.TruncationMarker),
 		"output under the limit must not be prefixed with the truncation marker")
 }
 
@@ -202,8 +109,8 @@ func Test_setUsefulErrorMessage_TruncatesLargeStderr(t *testing.T) {
 	a.setUsefulErrorMessage(exec.CmdRunResult{Stderr: largeStderr, ExitCode: 1})
 
 	got := a.app.Status.UsefulErrorMessage
-	assert.True(t, strings.HasPrefix(got, truncationMarker))
-	assert.LessOrEqual(t, len(got), len(truncationMarker)+limit)
+	assert.True(t, strings.HasPrefix(got, exec.TruncationMarker))
+	assert.LessOrEqual(t, len(got), len(exec.TruncationMarker)+limit)
 }
 
 func Test_setUsefulErrorMessage_NoTruncation_WhenUnderLimit(t *testing.T) {

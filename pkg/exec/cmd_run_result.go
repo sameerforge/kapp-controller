@@ -7,11 +7,16 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 )
 
 var (
 	trailingSpace = regexp.MustCompile("\\s+\n")
 )
+
+// TruncationMarker is prepended to any output field that was clipped.
+// Operators can detect truncation by checking for this prefix.
+const TruncationMarker = "[output truncated]\n"
 
 type CmdRunResult struct {
 	Stdout   string
@@ -64,4 +69,32 @@ func (r CmdRunResult) WithFriendlyYAMLStrings() CmdRunResult {
 
 func (r CmdRunResult) IsEmpty() bool {
 	return r == (CmdRunResult{})
+}
+
+// WithTruncatedStrings returns a copy of r with Stdout and Stderr each capped
+// to maxBytes by keeping the tail (the most actionable kapp output always
+// appears last).  When a field is under the limit it is left unchanged.
+func (r CmdRunResult) WithTruncatedStrings(maxBytes int) CmdRunResult {
+	return CmdRunResult{
+		Stdout:   truncateOutput(r.Stdout, maxBytes),
+		Stderr:   truncateOutput(r.Stderr, maxBytes),
+		ExitCode: r.ExitCode,
+		Error:    r.Error,
+		Finished: r.Finished,
+	}
+}
+
+// truncateOutput returns s unchanged when len(s) <= maxBytes.  Otherwise it
+// returns TruncationMarker followed by the last maxBytes bytes of s, adjusted
+// forward to a valid UTF-8 rune boundary.
+func truncateOutput(s string, maxBytes int) string {
+	if len(s) <= maxBytes {
+		return s
+	}
+	start := len(s) - maxBytes
+	// Advance past UTF-8 continuation bytes to avoid splitting a multi-byte rune.
+	for start < len(s) && !utf8.RuneStart(s[start]) {
+		start++
+	}
+	return TruncationMarker + s[start:]
 }

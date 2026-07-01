@@ -127,9 +127,10 @@ func (a *App) reconcileFetchTemplateDeploy() exec.CmdRunResult {
 		var fetchResult exec.CmdRunResult
 		assetsPath, fetchResult = a.fetch(assetsPath)
 
+		fetchResult = fetchResult.WithTruncatedStrings(a.maxOutputBytes())
 		a.app.Status.Fetch = &v1alpha1.AppStatusFetch{
-			Stderr:    truncateOutput(fetchResult.Stderr, a.maxOutputBytes()),
-			Stdout:    truncateOutput(fetchResult.Stdout, a.maxOutputBytes()),
+			Stderr:    fetchResult.Stderr,
+			Stdout:    fetchResult.Stdout,
 			ExitCode:  fetchResult.ExitCode,
 			Error:     fetchResult.ErrorStr(),
 			StartedAt: a.app.Status.Fetch.StartedAt,
@@ -178,11 +179,11 @@ func (a *App) reconcileFetchTemplateDeploy() exec.CmdRunResult {
 }
 
 func (a *App) updateLastDeploy(result exec.CmdRunResult) exec.CmdRunResult {
-	result = result.WithFriendlyYAMLStrings()
+	result = result.WithFriendlyYAMLStrings().WithTruncatedStrings(a.maxOutputBytes())
 
 	a.app.Status.Deploy = &v1alpha1.AppStatusDeploy{
-		Stdout:           truncateOutput(result.Stdout, a.maxOutputBytes()),
-		Stderr:           truncateOutput(result.Stderr, a.maxOutputBytes()),
+		Stdout:           result.Stdout,
+		Stderr:           result.Stderr,
 		Finished:         result.Finished,
 		ExitCode:         result.ExitCode,
 		Error:            result.ErrorStr(),
@@ -242,12 +243,12 @@ func (a *App) resetLastDeployStartedAt() {
 }
 
 func (a *App) reconcileInspect() error {
-	inspectResult := a.inspect().WithFriendlyYAMLStrings()
+	inspectResult := a.inspect().WithFriendlyYAMLStrings().WithTruncatedStrings(a.maxOutputBytes())
 
 	if !inspectResult.IsEmpty() {
 		a.app.Status.Inspect = &v1alpha1.AppStatusInspect{
-			Stdout:    truncateOutput(inspectResult.Stdout, a.maxOutputBytes()),
-			Stderr:    truncateOutput(inspectResult.Stderr, a.maxOutputBytes()),
+			Stdout:    inspectResult.Stdout,
+			Stderr:    inspectResult.Stderr,
 			ExitCode:  inspectResult.ExitCode,
 			Error:     inspectResult.ErrorStr(),
 			UpdatedAt: metav1.NewTime(time.Now().UTC()),
@@ -339,10 +340,11 @@ func (a *App) removeAllConditions() {
 }
 
 func (a *App) setUsefulErrorMessage(result exec.CmdRunResult) {
+	result = result.WithTruncatedStrings(a.maxOutputBytes())
 	switch {
 	case result.Stderr != "":
-		a.app.Status.UsefulErrorMessage = truncateOutput(result.Stderr, a.maxOutputBytes())
+		a.app.Status.UsefulErrorMessage = result.Stderr
 	default:
-		a.app.Status.UsefulErrorMessage = truncateOutput(result.ErrorStr(), a.maxOutputBytes())
+		a.app.Status.UsefulErrorMessage = result.ErrorStr()
 	}
 }
