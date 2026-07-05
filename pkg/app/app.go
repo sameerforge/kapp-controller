@@ -40,6 +40,9 @@ type Hooks struct {
 type Opts struct {
 	DefaultSyncPeriod time.Duration
 	MinimumSyncPeriod time.Duration
+	// MaxStatusOutputBytes caps each stdout/stderr field written into App status.
+	// Zero means use defaultMaxStatusOutputBytes (1 MiB).
+	MaxStatusOutputBytes int
 }
 
 type App struct {

@@ -127,6 +127,7 @@ func (a *App) reconcileFetchTemplateDeploy() exec.CmdRunResult {
 		var fetchResult exec.CmdRunResult
 		assetsPath, fetchResult = a.fetch(assetsPath)
 
+		fetchResult = fetchResult.WithTruncatedStrings(a.maxOutputBytes())
 		a.app.Status.Fetch = &v1alpha1.AppStatusFetch{
 			Stderr:    fetchResult.Stderr,
 			Stdout:    fetchResult.Stdout,
@@ -178,7 +179,7 @@ func (a *App) reconcileFetchTemplateDeploy() exec.CmdRunResult {
 }
 
 func (a *App) updateLastDeploy(result exec.CmdRunResult) exec.CmdRunResult {
-	result = result.WithFriendlyYAMLStrings()
+	result = result.WithFriendlyYAMLStrings().WithTruncatedStrings(a.maxOutputBytes())
 
 	a.app.Status.Deploy = &v1alpha1.AppStatusDeploy{
 		Stdout:           result.Stdout,
@@ -242,7 +243,7 @@ func (a *App) resetLastDeployStartedAt() {
 }
 
 func (a *App) reconcileInspect() error {
-	inspectResult := a.inspect().WithFriendlyYAMLStrings()
+	inspectResult := a.inspect().WithFriendlyYAMLStrings().WithTruncatedStrings(a.maxOutputBytes())
 
 	if !inspectResult.IsEmpty() {
 		a.app.Status.Inspect = &v1alpha1.AppStatusInspect{
@@ -339,6 +340,7 @@ func (a *App) removeAllConditions() {
 }
 
 func (a *App) setUsefulErrorMessage(result exec.CmdRunResult) {
+	result = result.WithTruncatedStrings(a.maxOutputBytes())
 	switch {
 	case result.Stderr != "":
 		a.app.Status.UsefulErrorMessage = result.Stderr
