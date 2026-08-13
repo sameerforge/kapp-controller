@@ -36,35 +36,35 @@
   version: v0.65.3
 - checksums:
     darwin:
-      amd64: 39042d2ce50e2277ce262596943ebaba4a94302bb1763bde75255029018d731e
-      arm64: e0e3c327888c5ed6bec69a8cfc8a8fd978e2790078b42ee48d3015be5e499899
+      amd64: 5b417c837b0134fabf2c4a322db054eacb8cfbe8d0e8cbbb86afc7e4f0d625fd
+      arm64: e136160aa642231c6eb1df25cbe3e57e5f3848ac0a7e7de57bbc3249fdbd800f
     linux:
-      amd64: b71189f46b26facc6d5baeae8047fe49afd899f8125818275241a084aa2c08a1
-      arm64: 25847a9d58c44cca6f486d7c31199a2a2e15bc1be1e8adafae66a01411ea222e
+      amd64: 878f3c77cae21b9b63d0ea6c11454c0008d41652d2eb3d1844fdcf69cca6ae9e
+      arm64: f80a27f1247ad4353b6054ca9d7e13e2511bf70c0e28d85bc314d2177ec2b0d2
   dev: true
   name: vendir
   repo: carvel-dev/vendir
   urlTemplate: https://github.com/carvel-dev/{{.Name}}/releases/download/{{.Version}}/{{.Name}}-{{.OS}}-{{.Arch}}
-  version: v0.45.4
+  version: v0.46.0
 - checksums:
     linux:
-      amd64: a0a5e8c592ed3f376ac110715eff214730c7422f9a44d96cf98117d2b8b0e6c0
-      arm64: ce02147ffee6d993bf8ae97a44a22e9e1daf0b69d2d5b69a0c8cf6706445ccf5
+      amd64: e9b88b4ee95b18c706839c28d3a0220e5bc470e9cd9262410c90793c45ff8b7c
+      arm64: 21abd9354d39b2cd79a8d76be6912cd137a983cbf997193503fb8a6a6e2f2785
   dev: false
   name: helm
   repo: helm/helm
   tarballSubpath: '{{.OS}}-{{.Arch}}/helm'
   urlTemplate: https://get.helm.sh/helm-{{.Version}}-{{.OS}}-{{.Arch}}.tar.gz
-  version: v3.19.5
+  version: v4.2.3
 - checksums:
     linux:
-      amd64: cf3136d20a6004405c986a48e179c3c7a731f777fbf105a37bd5dac5c9047100
-      arm64: c7904d07bf1fb3ffdc329b0103ce70ff6a884aa7af7931427402bea0c09cc522
+      amd64: e5bec3346a873ae91d871550f3e698c1aad962aff462a080e40f25fde17fef6b
+      arm64: 53b0abacd38ef1b12a66d6c100956691b9cefce018d91f81e73ddf7438b94d77
   dev: false
   name: sops
   repo: mozilla/sops
   urlTemplate: https://github.com/mozilla/sops/releases/download/{{.Version}}/sops-{{.Version}}.{{.OS}}.{{.Arch}}
-  version: v3.12.1
+  version: v3.13.3
 - checksums:
     linux:
       amd64: bdc69c09cbdd6cf8b1f333d372a1f58247b3a33146406333e30c0f26e8f51377
@@ -77,11 +77,11 @@
   version: v1.3.1
 - checksums:
     linux:
-      amd64: bbe0c5e85bc101cd1f95e68242f5ad48c3db73bad72be94fe2dc79d3f1ef0d4c
-      arm64: 5c5a59bcb31d53c81feee58774752df14baef5c412138f49c208ab15608ac981
+      amd64: a39b0c97695069d95d276d99be0f5dbabb081d801bfdc9ba49b76efaf94e2369
+      arm64: 0d729be30d52c952ca38fc9dcb692caa09d8463fa0b64df5781312779183fbcd
   dev: false
   name: cue
   repo: cue-lang/cue
   tarballSubpath: cue
   urlTemplate: https://github.com/cue-lang/cue/releases/download/{{.Version}}/cue_{{.Version}}_{{.OS}}_{{.Arch}}.tar.gz
-  version: v0.16.0
+  version: v0.17.1
