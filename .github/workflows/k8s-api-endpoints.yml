@@ -1,6 +1,8 @@
 name: K8s API Endpoints Compatibility
 
 on:
+  push:
+    branches: [topic/sameerkh/test-k8s-api-endpoints-test]
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
