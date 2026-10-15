@@ -113,7 +113,7 @@ func (a DownwardAPIValues) extractFieldPathAsKeyValue(name string, fieldPath str
 	}
 
 	if len(results) != 1 || len(results[0]) != 1 {
-		return nil, errors.New("Invalid field spec provided to DownwardAPI. Only single supported fields are allowed")
+		return nil, errors.New("Invalid field spec provided to DownwardAPI. Only single-field references are supported")
 	}
 
 	return a.nestedKeyValue(name, results[0][0].Interface())
