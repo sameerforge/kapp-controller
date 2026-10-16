@@ -98,3 +98,18 @@ func truncateOutput(s string, maxBytes int) string {
 	}
 	return TruncationMarker + s[start:]
 }
+
+var (
+	// urlUserinfo matches user:password@ and user@ patterns in URLs (http, https, ssh, git schemes)
+	urlUserinfo = regexp.MustCompile(`([a-zA-Z][a-zA-Z0-9+.-]*://)[^\s/@]+@|ssh://[^\s/@]+@`)
+)
+
+// RedactSecrets masks credential-bearing substrings in subprocess output.
+// It redacts URL userinfo (user:password@host or user@host) to prevent credential
+// leakage in resource status fields, logs, and debug output.
+// For example: https://token:x@registry → https://[REDACTED]@registry
+//
+// RedactSecrets is idempotent: calling it multiple times produces the same result.
+func RedactSecrets(s string) string {
+	return urlUserinfo.ReplaceAllString(s, "${1}[REDACTED]@")
+}
